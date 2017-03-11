@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_alta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_save"
+        android:scaleType="center"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <EditText
+            android:id="@+id/edit_name_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            />
+
+        <EditText
+            android:id="@+id/edit_description_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Description"
+            android:ems="10"
+            android:layout_below="@+id/linear_link"
+            android:layout_centerHorizontal="true"
+            />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_description_city"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/rating_city"
+            />
+
+        <LinearLayout
+            android:id="@+id/linear_link"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_name_city"
+            android:layout_centerHorizontal="true"
+            >
+
+            <EditText
+                android:id="@+id/edit_link_city"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:hint="Image Link"
+                android:layout_weight="0.8" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_view"
+                android:id="@+id/imageButton"
+                android:layout_weight="0.2" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>
+
