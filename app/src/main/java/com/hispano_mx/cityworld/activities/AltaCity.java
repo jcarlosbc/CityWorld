@@ -42,9 +42,9 @@ public class AltaCity extends AppCompatActivity {
     }
 
     private void createNewCity(String name, String url, String desc, float rating) {
-        /*realm.beginTransaction();
+        realm.beginTransaction();
         Ciudad cd = new Ciudad(name,desc,url,rating);
-        realm.copyToRealm(nota);
-        realm.commitTransaction();*/
+        realm.copyToRealm(cd);
+        realm.commitTransaction();
     }
 }
