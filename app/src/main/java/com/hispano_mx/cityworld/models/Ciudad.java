@@ -1,5 +1,7 @@
 package com.hispano_mx.cityworld.models;
 
+import com.hispano_mx.cityworld.app.MyApplication;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -19,10 +21,15 @@ public class Ciudad extends RealmObject {
     }
 
     public Ciudad(String nombre, String descripcion, String url_img, float estrellas) {
+        this.id= MyApplication.CiudadID.incrementAndGet();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.url_img = url_img;
         this.estrellas = estrellas;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNombre() {

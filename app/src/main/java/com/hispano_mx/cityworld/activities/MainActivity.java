@@ -9,15 +9,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.hispano_mx.cityworld.R;
 import com.hispano_mx.cityworld.adapters.CityMainAdapter;
 import com.hispano_mx.cityworld.models.Ciudad;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RealmChangeListener{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private Realm realm;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         //Inicializa Realm Cities
         realm = Realm.getDefaultInstance();
         list_ciudades = realm.where(Ciudad.class).findAll();
+        list_ciudades.addChangeListener(this);
         Log.i("MainActivity","onCreate lista_ciudades size->"+list_ciudades.size());
 
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
@@ -41,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CityMainAdapter(this, list_ciudades, R.layout.cities_adapter, new CityMainAdapter.OnJCItemClickListener() {
             @Override
             public void onitemClickListener(Ciudad cd, int position) {
-
+                Intent intent = new Intent(MainActivity.this, UpdateCity.class);
+                intent.putExtra("idCiudad",cd.getId());
+                startActivity(intent);
             }
         });
 
@@ -56,5 +61,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Log.i("MainActivity","onRestart");
+    }
+
+    @Override
+    public void onChange(Object element) {
+        adapter.notifyDataSetChanged();
     }
 }

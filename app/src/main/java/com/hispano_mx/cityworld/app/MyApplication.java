@@ -1,6 +1,7 @@
 package com.hispano_mx.cityworld.app;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.hispano_mx.cityworld.models.Ciudad;
 
@@ -19,15 +20,16 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
-        //setUpConfig();
-        Realm.init(getApplicationContext());
+        setUpConfig();
 
         Realm realm = Realm.getDefaultInstance();
         CiudadID = getIdByTable(realm, Ciudad.class);
+        Log.d("MyApplication","onCreate CiudadID>>"+CiudadID);
         realm.close();
     }
 
     private void setUpConfig(){
+        Realm.init(getApplicationContext());
         RealmConfiguration config = new RealmConfiguration
                 .Builder()
                 .deleteRealmIfMigrationNeeded()

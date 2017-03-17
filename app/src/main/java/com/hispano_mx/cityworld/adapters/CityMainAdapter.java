@@ -1,11 +1,14 @@
 package com.hispano_mx.cityworld.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +17,8 @@ import com.hispano_mx.cityworld.models.Ciudad;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * Created by jc on 11/03/17.
@@ -57,6 +62,7 @@ public class CityMainAdapter extends RecyclerView.Adapter<CityMainAdapter.MyView
         TextView city_name;
         TextView city_rating;
         TextView city_desc;
+        Button delete_btn;
 
 
         public MyViewHolder(View itemView) {
@@ -66,10 +72,48 @@ public class CityMainAdapter extends RecyclerView.Adapter<CityMainAdapter.MyView
             city_name = (TextView) itemView.findViewById(R.id.txt_city_name);
             city_rating = (TextView) itemView.findViewById(R.id.txt_rating);
             city_desc = (TextView) itemView.findViewById(R.id.txt_desc);
+            delete_btn = (Button) itemView.findViewById(R.id.delete_button);
+            delete_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AlertDialog alertDialog;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                    builder.setMessage("Los datos no se podrán recuperar").setTitle("Borrar Ciudad");
+                    builder.setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Realm realm;
+                            realm = Realm.getDefaultInstance();
+
+                            realm.beginTransaction();
+                            list_ciudades.get(getAdapterPosition()).deleteFromRealm();
+                            realm.commitTransaction();
+
+                            notifyDataSetChanged();
+                        }
+                    });
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });
         }
 
-        public void bind(Ciudad ciudad, OnJCItemClickListener itemClickListener) {
+        public void bind(final Ciudad ciudad, final OnJCItemClickListener itemClickListener) {
             Log.i("MyViewHolder","bind() img_url->"+ciudad.getUrl_img());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onitemClickListener(ciudad,getAdapterPosition());
+                }
+            });
 
             Picasso.with(ctx)
                     .load(ciudad.getUrl_img())
